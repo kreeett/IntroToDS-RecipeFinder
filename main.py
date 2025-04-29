@@ -63,10 +63,10 @@ def recom(cuisine: str):
         j = 0
         for i in recipes.keys():
             if x == j:
-                reco = i
+                randomRecommendation = i
             j+=1
         print("No recipes found in this cuisine, try this recipe instead!")
-        printRecipe(reco)
+        printRecipe(randomRecommendation)
 #############################################################
 def findRecipe(name):
     found = []
@@ -86,3 +86,5 @@ def filter(diff=None,prepTime=None,rating=None):
         if((v['Difficulty']== diff or diff is None)and(v['Prep Time']<prepTime or prepTime is None)and (rating>v['rating']or rating is None)):
            results.append(k)
     return results
+##############################################################
+
