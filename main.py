@@ -1,13 +1,13 @@
 from random import *
 recipes = {}
-def fillRec(name: str,cuisine: str,ingredients: list,perpTime: int,diff:int,rating:float):
+def fillRec(name: str,cuisine: str,ingredients: list,prepTime: int,diff:str,rating:float):
     if recipes.get(name,0) is not 0:
         return -1
-    recipes[name]['cuisine'] = cuisine
-    recipes[name]['ingredients']=ingredients
+    recipes[name]['cuisine'] = cuisine.lower()
+    recipes[name]['ingredients']=[i.lower() for i in ingredients]
     recipes[name]['difficulty']=diff
-    recipes[name][perpTime] = perpTime
-    recipes[name][rating]= rating
+    recipes[name]['prepTime'] = prepTime
+    recipes[name]['rating']= rating
 ##########################################################
 def getIngred(name):
     out =[]
@@ -21,6 +21,9 @@ def getIngred(name):
 def printRecipe(name):
     print("recipe: ",name)
     for k,v in recipes[name].items():
+        if k == 'prepTime':
+            print(k,': ',v,' minutes')
+            continue
         print(k,': ',v)
 ##########################################################
 def recom(cuisine: str):
@@ -42,4 +45,7 @@ def recom(cuisine: str):
             j+=1
         print("No recipes found in this cuisine, try this recipe instead!")
         printRecipe(reco)
+#############################################################
+def findRec():
+
 #############################################################
