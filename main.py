@@ -1,6 +1,28 @@
 from random import *
-recipes = {}
-def fillRec(name,cuisine='None',ingredients=[],prepTime='None',diff='None',rating='None'):
+recipes = {
+'Spaghetti Carbonara': {
+'Cuisine': 'Italian',
+'Ingredients': ['Pasta', 'Eggs', 'Cheese', 'Bacon'],
+'Prep Time': 20,
+'Difficulty': 'Medium',
+'Rating': 4.5
+},
+'Chicken Tikka Masala': {
+'Cuisine': 'Indian',
+'Ingredients': ['Chicken', 'Yogurt', 'Spices', 'Tomato Sauce'],
+'Prep Time': 45,
+'Difficulty': 'Hard',
+'Rating': 4.8
+},
+'Avocado Toast': {
+'Cuisine': 'American',
+'Ingredients': ['Bread', 'Avocado', 'Salt', 'Pepper'],
+'Prep Time': 5,
+'Difficulty': 'Easy',
+'Rating': 3.7
+}
+}
+def fillRec(name,cuisine=None,ingredients=None,prepTime=None,diff=None,rating=None):
     if recipes.get(name,0) is not 0:
         return -1
     recipes[name]['cuisine'] = cuisine.lower()
@@ -46,5 +68,22 @@ def recom(cuisine: str):
         print("No recipes found in this cuisine, try this recipe instead!")
         printRecipe(reco)
 #############################################################
-
+def findRecipe(name):
+    found = []
+    for k,v in recipes.items():
+        if name in k:
+            found.append(k)
+    if len(found)<1:
+        print("No recipes with that name were found")
+    else:
+        for i in found:
+            printRecipe(i)
+            print()
 #############################################################
+def filter(diff=None,prepTime=None,rating=None):
+    results = []
+    for k,v in recipes.items():
+        for k2,v2 in recipes[k].items:
+            if k2 == 'diffculty':
+                if v2 == diff or diff is None:
+                        
