@@ -1,3 +1,4 @@
+from random import *
 recipes = {}
 def fillRec(name: str,cuisine: str,ingredients: list,perpTime: int,diff:int,rating:float):
     if recipes.get(name,0) is not 0:
@@ -15,6 +16,10 @@ def getIngred(name):
             break
         out.append(x)
     return out
-
-    
-        
+def recom(cuisine: str):
+    recList = []
+    for k,v in recipes.items():
+        if v['cuisine'] == cuisine.lower():
+            recList.append(v['cuisine'])
+    if len(recList)>0:
+        print("based on your love of ")
