@@ -25,9 +25,9 @@ recipes = {
 def fillRec(name,cuisine=None,ingredients=None,prepTime=None,diff=None,rating=None):
     if recipes.get(name) is not None:
         return -1
-    recipes[name]['Cuisine'] = cuisine.lower()
-    recipes[name]['Ingredients']=[i.lower() for i in ingredients]
-    recipes[name]['Difficulty']=diff
+    recipes[name]['Cuisine'].lower() = cuisine.lower()
+    recipes[name]['Ingredients'].lower()=[i.lower() for i in ingredients]
+    recipes[name]['Difficulty'].lower()=diff
     recipes[name]['Prep Time'] = prepTime
     recipes[name]['Rating']= rating
 ##########################################################
@@ -93,3 +93,34 @@ while 1:
         break
     except:
         print("error Invalid choice")
+if choice ==1:
+    cuisine = input("Enter your favorite cuisine: ")
+    recom(cuisine)
+elif choice == 2:
+    name = input("Enter the name of the recipe: ")
+    findRecipe(name)
+elif choice == 3:
+    diff = input("Enter the difficulty level (Easy, Medium, Hard): ")
+    prepTime = int(input("Enter the maximum preparation time in minutes: "))
+    rating = float(input("Enter the minimum rating (0-5): "))
+    results = filter(diff,prepTime,rating)
+    if len(results)>0:
+        print("Here are the recipes that match your criteria:")
+        for i in results:
+            printRecipe(i)
+            print()
+    else:
+        print("No recipes found matching your criteria.")
+elif choice == 4:
+    name = input("Enter the name of the recipe: ").lower
+    cuisine = input("Enter the cuisine: ").lower()
+    ingredients = getIngred(name)
+    prepTime = int(input("Enter the preparation time in minutes: "))
+    diff = input("Enter the difficulty level (Easy, Medium, Hard): ").lower
+    rating = float(input("Enter the rating (0-5): "))
+    fillRec(name,cuisine,ingredients,prepTime,diff,rating)
+    print("Recipe added successfully!")
+elif choice == 5:
+    print("Goodbye!")
+else:
+    print("Invalid choice. Please try again.")
