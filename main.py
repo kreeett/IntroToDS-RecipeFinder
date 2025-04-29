@@ -87,4 +87,9 @@ def filter(diff=None,prepTime=None,rating=None):
            results.append(k)
     return results
 ##############################################################
-
+while 1:
+    try:
+        choice = int(input('Welcome to the Recipe Finder!\nChoose an option:\n1. Get recipe recommendations\n2. Search for a recipe\n3. Filter recipes (by time/difficulty/rating)\n4. Add a new recipe\n5. Exit'))
+        break
+    except:
+        print("error Invalid choice")
