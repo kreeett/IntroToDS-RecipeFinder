@@ -8,6 +8,7 @@ def fillRec(name: str,cuisine: str,ingredients: list,perpTime: int,diff:int,rati
     recipes[name]['difficulty']=diff
     recipes[name][perpTime] = perpTime
     recipes[name][rating]= rating
+##########################################################
 def getIngred(name):
     out =[]
     while 1:
@@ -16,10 +17,29 @@ def getIngred(name):
             break
         out.append(x)
     return out
+##########################################################
+def printRecipe(name):
+    print("recipe: ",name)
+    for k,v in recipes[name].items():
+        print(k,': ',v)
+##########################################################
 def recom(cuisine: str):
     recList = []
     for k,v in recipes.items():
         if v['cuisine'] == cuisine.lower():
             recList.append(v['cuisine'])
     if len(recList)>0:
-        print("based on your love of ")
+        print("based on your love of %s cuisine, try these recipes: \n")
+        for i in recList:
+            printRecipe(i)
+            print()
+    else:
+        x = randint(0,len(recipes)-1)
+        j = 0
+        for i in recipes.keys():
+            if x == j:
+                reco = i
+            j+=1
+        print("No recipes found in this cuisine, try this recipe instead!")
+        printRecipe(reco)
+#############################################################
