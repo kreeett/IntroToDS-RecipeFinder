@@ -23,7 +23,7 @@ recipes = {
 }
 }
 def fillRec(name,cuisine=None,ingredients=None,prepTime=None,diff=None,rating=None):
-    if recipes.get(name,None) is not None:
+    if recipes.get(name) is not None:
         return -1
     recipes[name]['Cuisine'] = cuisine.lower()
     recipes[name]['Ingredients']=[i.lower() for i in ingredients]
@@ -52,7 +52,7 @@ def recom(cuisine: str):
     recList = []
     for k,v in recipes.items():
         if v['Cuisine'] == cuisine.lower():
-            recList.append(v['Cuisine'])
+            recList.append(k)
     if len(recList)>0:
         print("based on your love of %s cuisine, try these recipes: \n")
         for i in recList:
