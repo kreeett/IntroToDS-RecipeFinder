@@ -25,11 +25,11 @@ recipes = {
 def fillRec(name,cuisine=None,ingredients=None,prepTime=None,diff=None,rating=None):
     if recipes.get(name,0) is not 0:
         return -1
-    recipes[name]['cuisine'] = cuisine.lower()
-    recipes[name]['ingredients']=[i.lower() for i in ingredients]
-    recipes[name]['difficulty']=diff
-    recipes[name]['prepTime'] = prepTime
-    recipes[name]['rating']= rating
+    recipes[name]['Cuisine'] = cuisine.lower()
+    recipes[name]['Ingredients']=[i.lower() for i in ingredients]
+    recipes[name]['Difficulty']=diff
+    recipes[name]['Prep Time'] = prepTime
+    recipes[name]['Rating']= rating
 ##########################################################
 def getIngred(name:str):
     out =[]
@@ -41,9 +41,9 @@ def getIngred(name:str):
     return out
 ##########################################################
 def printRecipe(name:str):
-    print("recipe: ",name)
+    print("Recipe: ",name)
     for k,v in recipes[name].items():
-        if k == 'prepTime':
+        if k == 'Prep Time':
             print(k,': ',v,' minutes')
             continue
         print(k,': ',v)
@@ -51,8 +51,8 @@ def printRecipe(name:str):
 def recom(cuisine: str):
     recList = []
     for k,v in recipes.items():
-        if v['cuisine'] == cuisine.lower():
-            recList.append(v['cuisine'])
+        if v['Cuisine'] == cuisine.lower():
+            recList.append(v['Cuisine'])
     if len(recList)>0:
         print("based on your love of %s cuisine, try these recipes: \n")
         for i in recList:
@@ -71,7 +71,7 @@ def recom(cuisine: str):
 def findRecipe(name):
     found = []
     for k,v in recipes.items():
-        if name in k:
+        if name in k.split():
             found.append(k)
     if len(found)<1:
         print("No recipes with that name were found")
@@ -83,7 +83,6 @@ def findRecipe(name):
 def filter(diff=None,prepTime=None,rating=None):
     results = []
     for k,v in recipes.items():
-        for k2,v2 in recipes[k].items:
-            if k2 == 'diffculty':
-                if v2 == diff or diff is None:
-                        
+        if((v['Difficulty']== diff or diff is None)and(v['Prep Time']<prepTime or prepTime is None)and (rating>v['rating']or rating is None)):
+           results.append(k)
+    return results
