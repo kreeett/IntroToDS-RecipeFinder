@@ -23,7 +23,7 @@ recipes = {
 }
 }
 def fillRec(name,cuisine=None,ingredients=None,prepTime=None,diff=None,rating=None):
-    if recipes.get(name,0) is not 0:
+    if recipes.get(name,None) is not None:
         return -1
     recipes[name]['Cuisine'] = cuisine.lower()
     recipes[name]['Ingredients']=[i.lower() for i in ingredients]
