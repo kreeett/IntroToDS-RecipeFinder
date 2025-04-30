@@ -88,6 +88,7 @@ def filter(diff=None,prepTime=None,rating=None):
            results.append(k)
     return results
 ##############################################################
+'''
 while 1:
     try:
         choice = int(input('Welcome to the Recipe Finder!\nChoose an option:\n1. Get recipe recommendations\n2. Search for a recipe\n3. Filter recipes (by time/difficulty/rating)\n4. Add a new recipe\n5. Exit'))
@@ -126,3 +127,12 @@ while 1:
         break
     else:
         print("Invalid choice. Please try again.")
+    '''
+from tkinter import *
+from tkinter import ttk
+root = Tk()
+frm = ttk.Frame(root, padding=10)
+frm.grid()
+ttk.Label(frm, text="Hello World!").grid(column=0, row=0)
+ttk.Button(frm, text="Quit", command=root.destroy).grid(column=1, row=0)
+root.mainloop()
