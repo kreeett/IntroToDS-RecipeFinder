@@ -1,26 +1,75 @@
 from random import *
 recipes = {
-'Spaghetti Carbonara': {
-'Cuisine': 'Italian',
-'Ingredients': ['Pasta', 'Eggs', 'Cheese', 'Bacon'],
-'Prep Time': 20,
-'Difficulty': 'Medium',
-'Rating': 4.5
-},
-'Chicken Tikka Masala': {
-'Cuisine': 'Indian',
-'Ingredients': ['Chicken', 'Yogurt', 'Spices', 'Tomato Sauce'],
-'Prep Time': 45,
-'Difficulty': 'Hard',
-'Rating': 4.8
-},
-'Avocado Toast': {
-'Cuisine': 'American',
-'Ingredients': ['Bread', 'Avocado', 'Salt', 'Pepper'],
-'Prep Time': 5,
-'Difficulty': 'Easy',
-'Rating': 3.7
-}
+    'Spaghetti Carbonara': {
+        'Cuisine': 'Italian',
+        'Ingredients': ['Pasta', 'Eggs', 'Cheese', 'Bacon'],
+        'Prep Time': 20,
+        'Difficulty': 'Medium',
+        'Rating': 4.5
+    },
+    'Chicken Tikka Masala': {
+        'Cuisine': 'Indian',
+        'Ingredients': ['Chicken', 'Yogurt', 'Spices', 'Tomato Sauce'],
+        'Prep Time': 45,
+        'Difficulty': 'Hard',
+        'Rating': 4.8
+    },
+    'Avocado Toast': {
+        'Cuisine': 'American',
+        'Ingredients': ['Bread', 'Avocado', 'Salt', 'Pepper'],
+        'Prep Time': 5,
+        'Difficulty': 'Easy',
+        'Rating': 3.7
+    },
+    'Beef Tacos': {
+        'Cuisine': 'Mexican',
+        'Ingredients': ['Tortillas', 'Ground Beef', 'Lettuce', 'Cheese', 'Salsa'],
+        'Prep Time': 25,
+        'Difficulty': 'Medium',
+        'Rating': 4.2
+    },
+    'Sushi Rolls': {
+        'Cuisine': 'Japanese',
+        'Ingredients': ['Rice', 'Nori', 'Fish', 'Vegetables'],
+        'Prep Time': 60,
+        'Difficulty': 'Hard',
+        'Rating': 4.9
+    },
+    'French Onion Soup': {
+        'Cuisine': 'French',
+        'Ingredients': ['Onions', 'Beef Broth', 'Cheese', 'Bread'],
+        'Prep Time': 50,
+        'Difficulty': 'Medium',
+        'Rating': 4.4
+    },
+    'Pad Thai': {
+        'Cuisine': 'Thai',
+        'Ingredients': ['Rice Noodles', 'Shrimp', 'Peanuts', 'Eggs', 'Bean Sprouts'],
+        'Prep Time': 30,
+        'Difficulty': 'Medium',
+        'Rating': 4.6
+    },
+    'Falafel Wrap': {
+        'Cuisine': 'Middle Eastern',
+        'Ingredients': ['Falafel', 'Pita Bread', 'Hummus', 'Lettuce', 'Tomato'],
+        'Prep Time': 35,
+        'Difficulty': 'Medium',
+        'Rating': 4.3
+    },
+    'Pancakes': {
+        'Cuisine': 'American',
+        'Ingredients': ['Flour', 'Eggs', 'Milk', 'Baking Powder', 'Sugar'],
+        'Prep Time': 15,
+        'Difficulty': 'Easy',
+        'Rating': 4.0
+    },
+    'Greek Salad': {
+        'Cuisine': 'Greek',
+        'Ingredients': ['Tomatoes', 'Cucumber', 'Feta Cheese', 'Olives', 'Olive Oil'],
+        'Prep Time': 10,
+        'Difficulty': 'Easy',
+        'Rating': 3.9
+    }
 }
 def fillRec(name,cuisine=None,ingredients=None,prepTime=None,diff=None,rating=None):
     if recipes.get(name) is not None:
@@ -198,6 +247,8 @@ submit_btn.pack()
 
 root.mainloop()
 '''
+
+'''
 import tkinter as tk
 
 def say_hello():
@@ -224,6 +275,6 @@ menu_bar.add_cascade(label="File", menu=file_menu)
 
 # Set menu bar to the root window
 root.config(menu=menu_bar)
-
 root.mainloop()
+'''
 
