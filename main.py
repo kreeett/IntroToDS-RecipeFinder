@@ -70,7 +70,7 @@ recipes = {
         'Difficulty': 'Easy',
         'Rating': 3.9
     }
-}#test push
+}
 def fillRec(name,cuisine=None,ingredients=None,prepTime=None,diff=None,rating=None):
     if recipes.get(name) is not None:
         return -1
