@@ -71,15 +71,17 @@ recipes = {
         'Rating': 3.9
     }
 }
-def fillRec(name,cuisine=None,ingredients=None,prepTime=None,diff=None,rating=None):
+def fillRec(name,label,cuisine=None,ingredients=None,prepTime=None,diff=None,rating=None):
+    label.config(text="")
     if recipes.get(name) is not None:
         return -1
     recipes[name] = {}
     recipes[name]['Cuisine'] = cuisine.lower()
-    recipes[name]['Ingredients']=[i.lower() for i in ingredients]
-    recipes[name]['Difficulty']=diff
+    recipes[name]['Ingredients']=[i.lower() for i in ingredients.split(',') if len(ingredients.split(','))>0]
     recipes[name]['Prep Time'] = prepTime
+    recipes[name]['Difficulty']=diff
     recipes[name]['Rating']= rating
+    label.config(text="Added")
 ##########################################################
 def getIngred(name:str):
     out =[]
@@ -90,24 +92,30 @@ def getIngred(name:str):
         out.append(x)
     return out
 ##########################################################
-def printRecipe(name:str):
-    print("Recipe: ",name)
+def add_text(label,add):
+    current = label["text"]
+    new = current+'\n'+add
+    label.config(text=new)
+##########################################################
+def printRecipe(name:str,label):
+    add_text(label,f"Recipe: {name}")
     for k,v in recipes[name].items():
         if k == 'Prep Time':
-            print(k,': ',v,' minutes')
+            add_text(label,f"{k}: {v} minutes")
             continue
-        print(k,': ',v)
+        add_text(label,f"{k}: {v}")
+    add_text(label,"\n")
 ##########################################################
-def recom(cuisine: str):
+def recom(cuisine: str,label):
     recList = []
+    label.config(text="")
     for k,v in recipes.items():
         if v['Cuisine'].lower() == cuisine.lower():
             recList.append(k)
     if len(recList)>0:
-        print("based on your love of %s cuisine, try these recipes: \n"%cuisine)
+        add_text(label,"based on your love of %s cuisine, try these recipes: \n"%cuisine)
         for i in recList:
-            printRecipe(i)
-            print()
+            printRecipe(i,label)
     else:
         x = randint(0,len(recipes)-1)
         j = 0
@@ -115,159 +123,173 @@ def recom(cuisine: str):
             if x == j:
                 randomRecommendation = i
             j+=1
-        print("No recipes found in this cuisine, try this recipe instead!")
-        printRecipe(randomRecommendation)
+        add_text(label,"No recipes found in this cuisine, try this recipe instead!")
+        printRecipe(randomRecommendation,label)
 #############################################################
-def findRecipe(name):
+def findRecipe(name,label):
     found = []
+    label.config(text="")
     for k,v in recipes.items():
         if name.lower() in k.lower().split():
             found.append(k)
     if len(found)<1:
-        print("No recipes with that name were found")
+        add_text(label,"No recipes with that name were found")
     else:
         for i in found:
-            printRecipe(i)
-            print()
+            printRecipe(i,label)
 #############################################################
-def filter(diff=None,prepTime=None,rating=None):
+def filter(label,diff=None,prepTime=None,rating=None):
     results = []
+    label.config(text="")
     for k,v in recipes.items():
         if((v['Difficulty'].lower()== diff.lower() or diff is None)and(v['Prep Time']<prepTime or prepTime is None)and (rating<v['Rating']or rating is None)):
            results.append(k)
-    return results
-##############################################################
-'''
-while 1:
-    try:
-        choice = int(input('Welcome to the Recipe Finder!\nChoose an option:\n1. Get recipe recommendations\n2. Search for a recipe\n3. Filter recipes (by time/difficulty/rating)\n4. Add a new recipe\n5. Exit'))
-    except:
-        print("error Invalid choice")
-        continue
-    if choice ==1:
-        cuisine = input("Enter your favorite cuisine: ")
-        recom(cuisine)
-    elif choice == 2:
-        name = input("Enter the name of the recipe: ")
-        findRecipe(name)
-    elif choice == 3:
-        diff = input("Enter the difficulty level (Easy, Medium, Hard): ").lower()
-        prepTime = int(input("Enter the maximum preparation time in minutes: "))
-        rating = float(input("Enter the minimum rating (0-5): "))
-        results = filter(diff,prepTime,rating)
-        if len(results)>0:
-            print("Here are the recipes that match your criteria:")
-            for i in results:
-                printRecipe(i)
-                print()
-        else:
-            print("No recipes found matching your criteria.")
-    elif choice == 4:
-        name = input("Enter the name of the recipe: ").lower()
-        cuisine = input("Enter the cuisine: ").lower()
-        ingredients = getIngred(name)
-        prepTime = int(input("Enter the preparation time in minutes: "))
-        diff = input("Enter the difficulty level (Easy, Medium, Hard): ").lower()
-        rating = float(input("Enter the rating (0-5): "))
-        fillRec(name,cuisine,ingredients,prepTime,diff,rating)
-        print("Recipe added successfully!")
-    elif choice == 5:
-        print("Goodbye!")
-        break
+    if len(results)>0:
+        add_text(label,"Here are the recipes that match your criteria:")
+        for i in results:
+            printRecipe(i,label)
     else:
-        print("Invalid choice. Please try again.")
-    '''
+        add_text(label,"No recipes found matching your criteria.")
+##############################################################
 import tkinter as tk
+def show_frame(frame,label=None):
+    if label is not None:
+        label.config(text="")
+    frame.tkraise()
+################################################################
+def printL(label,add):
+    label.config(text=add)
+##################################################################
+def submit():
+    selection = (choicebox.curselection())
+    if selection:
+        item = choicebox.get(selection[0])
+        if item=="1.Get recipe recommendations":
+            main.place_forget()
+            show_frame(reco)
+        elif item =="2.Search for a recipe":
+            main.place_forget()
+            show_frame(fnd)
+        elif item == "3.Filter recipes(by time/difficulty/rating)":
+            main.place_forget()
+            show_frame(fltr)
+        elif item=="4.Add a new recipe":
+            main.place_forget()
+            show_frame(add)
+        else:
+            root.destroy()
+########################################################################
 root = tk.Tk()
 root.title("Recipe Picker")
-root.geometry("400x400")
-frame = tk.Frame(root)
-welcome = tk.Label(frame,text="Welcome to saif's recipe picker!")
+root.geometry("400x800")
+#######################
+main = tk.Frame(root)
+reco = tk.Frame(root)
+fnd = tk.Frame(root)
+fltr = tk.Frame(root)
+add = tk.Frame(root)
+for frame in (main,reco,fnd,fltr,add):
+    frame.place(x=0,y=0,relwidth=1,relheight=1)
+#######################
+main.pack()
+welcome = tk.Label(main,text="Welcome to saif's recipe picker!")
 welcome.pack()
-choose = tk.Label(frame,text='Choose an option: ')
+choose = tk.Label(main,text='Choose an option: ')
 choose.pack()
-choicebox = tk.Listbox(frame)
-choicebox.insert(1,"1.Get recipe recommendations")
-choicebox.insert(2,"2.Search for a recipe")
-choicebox.insert(3,"3.Filter recipes(by time/difficulty/rating)")
-choicebox.insert(4,"4.Add a new recipe")
-choicebox.insert(5,"5.Exit")
+choicebox = tk.Listbox(main,height=5,width=35)
+choicebox.insert(tk.END,"1.Get recipe recommendations")
+choicebox.insert(tk.END,"2.Search for a recipe")
+choicebox.insert(tk.END,"3.Filter recipes(by time/difficulty/rating)")
+choicebox.insert(tk.END,"4.Add a new recipe")
+choicebox.insert(tk.END,"5.Exit")
 choicebox.pack()
-selection = (choicebox.curselection())
-if selection==5:
-    root.quit()
-root.mainloop()
-'''
-entry = tk.Entry(root)
-entry.pack()
-button = tk.Button(root, text="Greet", command=greet)
-button.pack()
-label = tk.Label(root, text="")
-label.pack()
-frame = tk.Frame(root)
-frame.pack(pady=10)
-label = tk.Label(frame, text="Inside a frame")
-label.pack()
-var = tk.BooleanVar()
-check = tk.Checkbutton(root, text="I agree", variable=var)
-check.pack()
-option = tk.StringVar()
-rb1 = tk.Radiobutton(root, text="Option 1", variable=option, value="1")
-rb2 = tk.Radiobutton(root, text="Option 2", variable=option, value="2")
-rb1.pack()
-rb2.pack()
-listbox = tk.Listbox(root)
-listbox.insert(1, "Apple")
-listbox.insert(2, "Banana")
-listbox.insert(3, "Cherry")
-entry = var
-listbox.pack()
-root.mainloop()
-import tkinter as tk
-root = tk.Tk()
-root.title("Form Example")
-root.geometry("400x300")
-frame = tk.Frame(root)
-frame.pack(pady=20)
-tk.Label(frame, text="Name:").grid(row=0, column=0)
-name_entry = tk.Entry(frame)
-name_entry.grid(row=0, column=1)
-tk.Label(frame, text="Age:").grid(row=1, column=0)
-age_entry = tk.Entry(frame)
-age_entry.grid(row=1, column=1)
-label = tk.Label(frame,text="")
-label.grid(row=3,column=1)
-def submit():
-    name = name_entry.get()
-    age = age_entry.get()
-    label.config(text=f"Name: {name}, Age: {age}")
-submit_btn = tk.Button(root, text="Submit", command=submit)
-submit_btn.pack()
-root.mainloop()
-import tkinter as tk
-def say_hello():
-    label.config(text="Hello!")
+choicebox.bind("<<ListboxSelect>>", lambda event: submit())
+sel = tk.Label(main,text="")
+sel.pack()
+canvas = tk.Canvas(main,width=400,height=400,bg='white')
+canvas.pack()
 
-root = tk.Tk()
-root.title("Menu Example")
-root.geometry("400x400")
-frame=tk.Frame(root)
-frame.pack(pady=20)
-label = tk.Label(frame,text="")
-label.pack()
-# Create a menu bar
-menu_bar = tk.Menu(root)
+########################
+recoTitle = tk.Label(reco,text="Enter your favourite cuisine")
+recoTitle.pack()
+cuis = tk.Entry(reco)
+cuis.pack()
+recoOut = tk.Label(reco,text="")
+recoOut.pack()
+recoSubButton = tk.Button(reco,text="Submit",command = lambda: recom(cuis.get(),recoOut))
+recoSubButton.pack()
+recoBackButton = tk.Button(reco,text="Back to main menu",command=lambda: show_frame(main,recoOut))
+recoBackButton.pack()
 
-# Create a "File" dropdown menu
-file_menu = tk.Menu(menu_bar, tearoff=0)
-file_menu.add_command(label="Say Hello", command=say_hello)
-file_menu.add_separator()
-file_menu.add_command(label="Exit", command=root.quit)
+##################################
+fndTitle = tk.Label(fnd,text="Enter the name of the recipe")
+fndTitle.pack()
+fndName = tk.Entry(fnd)
+fndName.pack()
+fndOut = tk.Label(fnd,text="")
+fndOut.pack()
+fndSubButton = tk.Button(fnd,text="Search",command=lambda: findRecipe(fndName.get(),fndOut))
+fndSubButton.pack()
+fndBackButton = tk.Button(fnd,text="Back to main menu",command=lambda: show_frame(main,fndOut))
+fndBackButton.pack()
 
-# Add "File" menu to menu bar
-menu_bar.add_cascade(label="File", menu=file_menu)
-
-# Set menu bar to the root window
-root.config(menu=menu_bar)
+###################################
+fltrTitle1 = tk.Label(fltr,text="Enter difficulty")
+fltrTitle1.pack()
+fltrDifficulty = tk.Listbox(fltr,height=3)
+fltrDifficulty.insert(tk.END,"Easy")
+fltrDifficulty.insert(tk.END,"Medium")
+fltrDifficulty.insert(tk.END,"Hard")
+fltrDifficulty.pack()
+fltrTitle2 = tk.Label(fltr,text="Max prep time")
+fltrTitle2.pack()
+fltrPrepTime= tk.Scale(fltr,from_=1,to=120,orient='horizontal')
+fltrPrepTime.pack()
+fltrTitle3 = tk.Label(fltr,text="Min Rating")
+fltrTitle3.pack()
+fltrRating = tk.Scale(fltr,from_=1,to=5,orient='horizontal',tickinterval=0.1)
+fltrRating.pack()
+fltrOut = tk.Label(fltr,text="")
+fltrOut.pack()
+fltrSubButton = tk.Button(fltr,text="Search",command=lambda: filter(fltrOut,fltrDifficulty.get(fltrDifficulty.curselection()[0]),int(fltrPrepTime.get()),int(fltrRating.get())))
+fltrSubButton.pack()
+fltrBackButton = tk.Button(fltr,text="Back to main menu",command=lambda: show_frame(main,fltrOut))
+fltrBackButton.pack()
+###################################
+addTitle1 = tk.Label(add,text="Enter the name of the recipe")
+addTitle1.pack()
+addName = tk.Entry(add)
+addName.pack()
+addTitle2 = tk.Label(add,text="Enter cuisine")
+addTitle2.pack()
+addCuisine = tk.Entry(add)
+addCuisine.pack()
+addTitle3 = tk.Label(add,text="Add a list of ingredients(seperated by commas)")
+addTitle3.pack()
+addIngredients = tk.Entry(add)
+addIngredients.pack()
+addTitle4 = tk.Label(add,text="Add difficulty")
+addTitle4.pack()
+addDifficulty = tk.Listbox(add,height=3)
+addDifficulty.insert(tk.END,"Easy")
+addDifficulty.insert(tk.END,"Medium")
+addDifficulty.insert(tk.END,"Hard")
+addDifficulty.pack()
+addTitle5 = tk.Label(add,text="Add Prep time")
+addTitle5.pack()
+addPrepTime = tk.Scale(add,from_=5,to=120,orient='horizontal',resolution=5)
+addPrepTime.pack()
+addTitle6 = tk.Label(add,text="Add Rating")
+addTitle6.pack()
+addRating = tk.Scale(add,from_=1,to=5,orient='horizontal',resolution=0.1)
+addRating.pack()
+ingredientList = addIngredients.get().split(',')
+addOut = tk.Label(add,text='')
+addOut.pack()
+addSubButton = tk.Button(add,text="Add",command=lambda: fillRec(addName.get(),addOut,addCuisine.get(),addIngredients.get(),addPrepTime.get(),addDifficulty.get(addDifficulty.curselection()[0]),addRating.get()))
+addSubButton.pack()
+addBackButton = tk.Button(add,text="Back to main menu",command=lambda: show_frame(main,fltrOut))
+addBackButton.pack()
+###################################
+show_frame(main)
 root.mainloop()
-'''
