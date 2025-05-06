@@ -178,33 +178,40 @@ while 1:
         print("Invalid choice. Please try again.")
     '''
 import tkinter as tk
-'''
-def greet():
-    user_input = entry.get()
-    label.config(text=f"Hello, {user_input}!")
-
 root = tk.Tk()
-root.title("Greeter")
-root.geometry("300x150")
-
+root.title("Recipe Picker")
+root.geometry("400x400")
+frame = tk.Frame(root)
+welcome = tk.Label(frame,text="Welcome to saif's recipe picker!")
+welcome.pack()
+choose = tk.Label(frame,text='Choose an option: ')
+choose.pack()
+choicebox = tk.Listbox(frame)
+choicebox.insert(1,"1.Get recipe recommendations")
+choicebox.insert(2,"2.Search for a recipe")
+choicebox.insert(3,"3.Filter recipes(by time/difficulty/rating)")
+choicebox.insert(4,"4.Add a new recipe")
+choicebox.insert(5,"5.Exit")
+choicebox.pack()
+selection = (choicebox.curselection())
+if selection==5:
+    root.quit()
+root.mainloop()
+'''
 entry = tk.Entry(root)
 entry.pack()
-
 button = tk.Button(root, text="Greet", command=greet)
 button.pack()
-
 label = tk.Label(root, text="")
 label.pack()
 frame = tk.Frame(root)
 frame.pack(pady=10)
-
 label = tk.Label(frame, text="Inside a frame")
 label.pack()
 var = tk.BooleanVar()
 check = tk.Checkbutton(root, text="I agree", variable=var)
 check.pack()
 option = tk.StringVar()
-
 rb1 = tk.Radiobutton(root, text="Option 1", variable=option, value="1")
 rb2 = tk.Radiobutton(root, text="Option 2", variable=option, value="2")
 rb1.pack()
@@ -216,41 +223,28 @@ listbox.insert(3, "Cherry")
 entry = var
 listbox.pack()
 root.mainloop()
-'''
-'''
 import tkinter as tk
-
 root = tk.Tk()
 root.title("Form Example")
 root.geometry("400x300")
-
 frame = tk.Frame(root)
 frame.pack(pady=20)
-
 tk.Label(frame, text="Name:").grid(row=0, column=0)
 name_entry = tk.Entry(frame)
 name_entry.grid(row=0, column=1)
-
 tk.Label(frame, text="Age:").grid(row=1, column=0)
 age_entry = tk.Entry(frame)
 age_entry.grid(row=1, column=1)
 label = tk.Label(frame,text="")
 label.grid(row=3,column=1)
-
 def submit():
     name = name_entry.get()
     age = age_entry.get()
     label.config(text=f"Name: {name}, Age: {age}")
-
 submit_btn = tk.Button(root, text="Submit", command=submit)
 submit_btn.pack()
-
 root.mainloop()
-'''
-
-'''
 import tkinter as tk
-
 def say_hello():
     label.config(text="Hello!")
 
@@ -277,4 +271,3 @@ menu_bar.add_cascade(label="File", menu=file_menu)
 root.config(menu=menu_bar)
 root.mainloop()
 '''
-
