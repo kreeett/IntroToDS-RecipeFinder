@@ -71,10 +71,10 @@ recipes = {
         'Rating': 3.9
     }
 }
-def fillRec(name,label,cuisine=None,ingredients=None,prepTime=None,diff=None,rating=None):
-    label.config(text="")
-    if recipes.get(name) is not None:
-        return -1
+def fillRec(name,label,cuisine=None,ingredients=None,prepTime=None,diff=None,rating=None):#Function to add an item to the data
+    label.config(text="")#clear previous outputs from the gui
+    if recipes.get(name.lower().title()) is not None:#use the .get function to test if the added item already exists or not
+        label.config(text="already exists")
     recipes[name] = {}
     recipes[name]['Cuisine'] = cuisine.lower()
     recipes[name]['Ingredients']=[i.lower() for i in ingredients.split(',') if len(ingredients.split(','))>0]
